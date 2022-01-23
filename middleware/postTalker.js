@@ -16,7 +16,7 @@ const HTTP_OK_STATUS = 201;
 const HTTP_ERR_UNAUTHORIZED = 400;
 const HTTP_ERR_REQUEST = 401;
 
-const talkerJson = JSON.parse(fs.readFileSync('./talker.json', 'utf-8'));
+const talkerJson = JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
 
 function createTalker(name, age, talk) {
   const talker = {
