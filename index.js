@@ -32,7 +32,7 @@ app.post('/talker',
   verifyTalk,
   verifyTalkWatched,
   verifyTalkRate,
-  postTalk);
+  postTalk); // req 4
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
