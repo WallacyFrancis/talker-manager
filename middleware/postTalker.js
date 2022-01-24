@@ -36,6 +36,8 @@ function validDate(date) {
 
 function validAuthorization(req, res, next) {
   const { authorization } = req.headers;
+  console.log(authorization);
+  console.log(req.headers.token);
   if (!authorization) return res.status(HTTP_ERR_REQUEST).json(tokenEmpty);
   if (authorization.length !== 16) return res.status(HTTP_ERR_REQUEST).json(tokenIvalid);
   next();
@@ -83,6 +85,7 @@ function postTalk(req, res) {
   const { name, age, talk } = req.body;
   const newTalker = createTalker(name, age, talk);
   talkerJson.push(newTalker);
+  console.log(talkerJson);
   fs.writeFileSync('./talker.json', JSON.stringify(talkerJson));
   res.status(HTTP_OK_STATUS).json(newTalker);
 }
