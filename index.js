@@ -6,6 +6,7 @@ const { getTalker } = require('./middleware/getTalker');
 const { getTalkerId } = require('./middleware/getTalkerId');
 const { login } = require('./middleware/login');
 const { putTalker } = require('./middleware/editTalker');
+const { deleteTalker } = require('./middleware/deleteTalker');
 const {
   verifyTalk,
   verifyTalkWatched,
@@ -45,6 +46,9 @@ app.put('/talker/:id',
   verifyTalkWatched,
   verifyTalkRate,
   putTalker); // req 5
+app.delete('/talker/:id', 
+  validAuthorization,
+  deleteTalker); // req 6
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
