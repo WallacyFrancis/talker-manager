@@ -16,15 +16,16 @@ const HTTP_OK_STATUS = 201;
 const HTTP_ERR_UNAUTHORIZED = 400;
 const HTTP_ERR_REQUEST = 401;
 
-const talkerJson = JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
-
 function createTalker(name, age, talk) {
+  const talkerJson = JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
   const talker = {
     id: talkerJson.length + 1,
     name,
     age,
     talk,
   };
+  talkerJson.push(talker);
+  fs.writeFileSync('./talker.json', JSON.stringify(talkerJson));
   return talker;
 }
 
@@ -84,9 +85,6 @@ function verifyTalkRate(req, res, next) {
 function postTalk(req, res) {
   const { name, age, talk } = req.body;
   const newTalker = createTalker(name, age, talk);
-  talkerJson.push(newTalker);
-  console.log(talkerJson);
-  fs.writeFileSync('./talker.json', JSON.stringify(talkerJson));
   res.status(HTTP_OK_STATUS).json(newTalker);
 }
 
