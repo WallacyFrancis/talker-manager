@@ -1,12 +1,6 @@
 const fs = require('fs');
 
 const {
-  tokenEmpty,
-  tokenIvalid,
-  nameEmpty,
-  nameInvalid,
-  ageEmpty,
-  ageInvalid,
   talkEmpty,
   talkWatchedInvalid,
   talkRateInvalid,
@@ -14,7 +8,6 @@ const {
 
 const HTTP_OK_STATUS = 201;
 const HTTP_ERR_UNAUTHORIZED = 400;
-const HTTP_ERR_REQUEST = 401;
 
 function createTalker(name, age, talk) {
   const talkerJson = JSON.parse(fs.readFileSync('./talker.json', 'utf8'));
@@ -35,32 +28,10 @@ function validDate(date) {
   return regexDate.test(date);
 }
 
-function validAuthorization(req, res, next) {
-  const { authorization } = req.headers;
-  console.log(authorization);
-  console.log(req.headers.token);
-  if (!authorization) return res.status(HTTP_ERR_REQUEST).json(tokenEmpty);
-  if (authorization.length !== 16) return res.status(HTTP_ERR_REQUEST).json(tokenIvalid);
-  next();
-}
-
-function verifyName(req, res, next) {
-  const { name } = req.body;
-  if (!name) return res.status(HTTP_ERR_UNAUTHORIZED).json(nameEmpty);
-  if (name.length < 3) return res.status(HTTP_ERR_UNAUTHORIZED).json(nameInvalid);
-  next();
-}
-
-function verifyAge(req, res, next) {
-  const { age } = req.body;
-  if (!age) return res.status(HTTP_ERR_UNAUTHORIZED).json(ageEmpty);
-  if (age < Number(18)) return res.status(HTTP_ERR_UNAUTHORIZED).json(ageInvalid);
-  next();
-}
-
 function verifyTalk(req, res, next) {
   const { talk } = req.body;
-  if (!talk || !talk.watchedAt || !talk.rate) {
+  if (!talk || !talk.watchedAt || (!talk.rate && talk.rate !== 0)) {
+    console.log(talk);
     return res.status(HTTP_ERR_UNAUTHORIZED).json(talkEmpty);
   }
   next();
@@ -89,9 +60,6 @@ function postTalk(req, res) {
 }
 
 module.exports = {
-  validAuthorization,
-  verifyName,
-  verifyAge,
   verifyTalk,
   verifyTalkWatched,
   verifyTalkRate,
