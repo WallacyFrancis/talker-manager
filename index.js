@@ -7,6 +7,7 @@ const { getTalkerId } = require('./middleware/getTalkerId');
 const { login } = require('./middleware/login');
 const { putTalker } = require('./middleware/editTalker');
 const { deleteTalker } = require('./middleware/deleteTalker');
+const { searchTalk } = require('./middleware/searchTalk');
 const {
   verifyTalk,
   verifyTalkWatched,
@@ -28,6 +29,7 @@ const PORT = '3000';
 
 /* requisitos do projeto */
 app.get('/talker', getTalker); // req1
+app.get('/talker/search', validAuthorization, searchTalk); // req 7
 app.get('/talker/:id', getTalkerId); // req 2
 app.post('/login', login); // req 3
 app.post('/talker',
